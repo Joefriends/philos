@@ -6,7 +6,7 @@
 /*   By: jlopes-c <jlopes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:45 by jlopes-c          #+#    #+#             */
-/*   Updated: 2025/09/24 14:55:32 by jlopes-c         ###   ########.fr       */
+/*   Updated: 2025/09/25 11:08:23 by jlopes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_philo **initialize_philosophers(t_info *data)
 	t_philo	**philo_assign;
 	i = 0;
 
-	philo_assign = malloc(sizeof(t_philo) * data->philo_num);
+	philo_assign = malloc(sizeof(t_philo *) * data->philo_num);
 	if (!philo_assign)
 	{
 		return NULL; //error message
@@ -93,7 +93,6 @@ void init_values(char **argv, t_info *data)
 	data->philo_tte = ft_atoi(argv[3]);
 	data->philo_tts = ft_atoi(argv[4]);
 	data->start_philo = get_time_in_ms();
-	data->food_flag = 0;
 	data->simulation_end = 0;
 	if (argv[5])
 		data->philo_num_eat = ft_atoi(argv[5]);

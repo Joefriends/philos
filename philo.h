@@ -6,7 +6,7 @@
 /*   By: jlopes-c <jlopes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:52 by jlopes-c          #+#    #+#             */
-/*   Updated: 2025/09/24 14:53:47 by jlopes-c         ###   ########.fr       */
+/*   Updated: 2025/09/25 10:44:49 by jlopes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ typedef struct s_info //General info, not specific to each philo
 	t_philo			**philo; // Pointer to the philo struct
 	long int		start_philo; //Time at which the simulation begins
 	int				simulation_end; // Flag to indicate if the simulation should end for leaks
-	int				food_flag; //maybeeeeeeeeee
 	pthread_mutex_t	print_lock; //Print Mutex, lock to write current philo action
 }	t_info;
 

@@ -6,7 +6,7 @@
 /*   By: jlopes-c <jlopes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 12:16:45 by jlopes-c          #+#    #+#             */
-/*   Updated: 2025/09/24 15:10:45 by jlopes-c         ###   ########.fr       */
+/*   Updated: 2025/09/25 11:10:10 by jlopes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,22 @@
 int	ate_everything(t_info *data)
 {
 	int	i;
+	int food_flag;
 
 	i = 0;
+	food_flag = 0;
 	while (i < data->philo_num)
 	{
 		pthread_mutex_lock(&data->philo[i]->meal_lock);
 		if ((data->philo[i]->times_ate >= data->philo_num_eat) && data->philo_num_eat != -1)
 		{
-			data->food_flag++;
-			printf("FOOD FLAG : %d\n", data->food_flag);
+			food_flag++;
 		}
 		pthread_mutex_unlock(&data->philo[i]->meal_lock);
 		i++;
 		
 	}
-	if (data->food_flag == data->philo_num)
+	if (food_flag == data->philo_num)
 		return (1);
 	return (0);
 }
@@ -40,12 +41,22 @@ void	eat_routine(t_philo *data)
 	print_current_action(data, " has taken a fork");
 	pthread_mutex_lock(&data->info->forks[data->fork[1]]);
 	print_current_action(data, " has taken a fork");
+	
 	pthread_mutex_lock(&data->meal_lock);
 	print_current_action(data, "is eating");
 	data->last_meal = get_time_in_ms();
+	
+	pthread_mutex_unlock(&data->meal_lock);
+
+
+	
+	philo_sleep(data->info->philo_tte, data->info);
+
+	pthread_mutex_lock(&data->meal_lock);
 	data->times_ate = data->times_ate + 1;
 	pthread_mutex_unlock(&data->meal_lock);
-	philo_sleep(data->info->philo_tte, data->info);
+
+
 	pthread_mutex_unlock(&data->info->forks[data->fork[0]]);
 	pthread_mutex_unlock(&data->info->forks[data->fork[1]]);
 	print_current_action(data, "is sleeping");
@@ -142,6 +153,7 @@ void	*death_monitor(void *arg)
 			data->simulation_end = 1;
 			return (NULL); // End simulation
 		}
+		usleep(100);
 	}
 	return (NULL);
 }
