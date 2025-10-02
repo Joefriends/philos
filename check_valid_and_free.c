@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_valid.c                                      :+:      :+:    :+:   */
+/*   check_valid_and_free.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlopes-c <jlopes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:54:03 by jlopes-c          #+#    #+#             */
-/*   Updated: 2025/09/24 11:02:06 by jlopes-c         ###   ########.fr       */
+/*   Updated: 2025/10/02 11:06:26 by jlopes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,33 @@ int	is_valid(int argc, char **argv)
 		i++;
 	}
 	return (1);
+}
+
+void	*free_data(t_info *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->philo_num)
+	{
+		free(data->philo[i]);
+		i++;
+	}
+	free(data->philo);
+	free(data->forks);
+	return (NULL);
+}
+
+void	mutex_destroy(t_info *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->philo_num)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		pthread_mutex_destroy(&data->philo[i]->meal_lock);
+		i++;
+	}
+	pthread_mutex_destroy(&data->print_lock);
 }

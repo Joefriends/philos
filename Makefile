@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: jlopes-c <jlopes-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:53:58 by jlopes-c          #+#    #+#              #
-#    Updated: 2025/09/22 12:59:30 by marvin           ###   ########.fr        #
+#    Updated: 2025/10/02 11:12:01 by jlopes-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,7 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra 
 MAKE_LIB = ar -rcs
 
-
-SRCS = check_valid.c get_time.c init.c philo.c aux_func.c free_destroy.c
+SRCS = check_valid_and_free.c get_time.c init.c philo.c create_and_print.c end_simulation.c
 		
 OBJS = $(SRCS:.c=.o)
 
