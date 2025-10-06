@@ -6,7 +6,7 @@
 /*   By: jlopes-c <jlopes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:54:03 by jlopes-c          #+#    #+#             */
-/*   Updated: 2025/10/02 11:06:26 by jlopes-c         ###   ########.fr       */
+/*   Updated: 2025/10/06 12:26:58 by jlopes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	is_valid(int argc, char **argv)
 			printf("Error: Incorrect Param\n");
 			return (0);
 		}
-		if (ft_atoi(argv[i]) < 0)
+		if (ft_atoi(argv[i]) <= 0)
 		{
 			printf("Error: Incorrect Param\n");
 			return (0);
