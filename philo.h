@@ -6,7 +6,7 @@
 /*   By: jlopes-c <jlopes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:52 by jlopes-c          #+#    #+#             */
-/*   Updated: 2025/10/02 11:11:38 by jlopes-c         ###   ########.fr       */
+/*   Updated: 2025/10/09 11:02:50 by jlopes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_info
 	t_philo			**philo;
 	long long		start_philo;
 	int				simulation_end;
+	pthread_mutex_t	simulation_lock;
 	pthread_mutex_t	print_lock;
 }	t_info;
 

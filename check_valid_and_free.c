@@ -6,7 +6,7 @@
 /*   By: jlopes-c <jlopes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:54:03 by jlopes-c          #+#    #+#             */
-/*   Updated: 2025/10/06 12:26:58 by jlopes-c         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:53:37 by jlopes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,5 @@ void	mutex_destroy(t_info *data)
 		i++;
 	}
 	pthread_mutex_destroy(&data->print_lock);
+	pthread_mutex_destroy(&data->simulation_lock);
 }

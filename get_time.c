@@ -6,7 +6,7 @@
 /*   By: jlopes-c <jlopes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 11:24:00 by jlopes-c          #+#    #+#             */
-/*   Updated: 2025/09/29 12:36:04 by jlopes-c         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:56:53 by jlopes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,13 @@ void	philo_sleep(int ms, t_info *data)
 	while (1)
 	{
 		now = get_time_in_ms();
+		pthread_mutex_lock(&data->simulation_lock);
 		if (now - start >= ms || data->simulation_end == 1)
+		{
+			pthread_mutex_unlock(&data->simulation_lock);
 			break ;
+		}
+		pthread_mutex_unlock(&data->simulation_lock);
 		usleep(500);
 	}
 }

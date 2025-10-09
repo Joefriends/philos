@@ -14,9 +14,12 @@
 
 void	*death_checknsleep(t_info *data)
 {
+	
 	if (data->philo_num_eat != -1 && ate_everything(data))
 	{
+		pthread_mutex_lock(&data->simulation_lock);
 		data->simulation_end = 1;
+		pthread_mutex_unlock(&data->simulation_lock);
 		return (NULL);
 	}
 	philo_sleep(10, data);
@@ -39,8 +42,10 @@ void	*death_monitor(void *arg)
 			pthread_mutex_lock(&data->philo[i]->meal_lock);
 			if (get_time_in_ms() - data->philo[i]->last_meal >= data->philo_ttd)
 			{
+				pthread_mutex_lock(&data->simulation_lock);
 				print_current_action(data->philo[i], " died");
 				data->simulation_end = 1;
+				pthread_mutex_unlock(&data->simulation_lock);
 				pthread_mutex_unlock(&data->philo[i]->meal_lock);
 				return (NULL);
 			}

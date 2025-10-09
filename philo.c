@@ -6,7 +6,7 @@
 /*   By: jlopes-c <jlopes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 10:34:48 by jlopes-c          #+#    #+#             */
-/*   Updated: 2025/10/02 11:05:31 by jlopes-c         ###   ########.fr       */
+/*   Updated: 2025/10/09 11:20:42 by jlopes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,30 +73,41 @@ void	*philo_routine(void *data)
 	pthread_mutex_lock(&philo->meal_lock);
 	philo->last_meal = get_time_in_ms();
 	pthread_mutex_unlock(&philo->meal_lock);
-	while (philo && philo->info->simulation_end == 0)
+	while (philo)
+{
+	pthread_mutex_lock(&philo->info->simulation_lock);
+	if (philo->info->simulation_end == 1)
 	{
-		if (philo->info->simulation_end == 1)
-			break ;
-		eat_routine(philo);
+		pthread_mutex_unlock(&philo->info->simulation_lock);
+		break ;
 	}
+	pthread_mutex_unlock(&philo->info->simulation_lock);
+	eat_routine(philo);
+}
+
 	return (NULL);
 }
 
 int	main(int argc, char **argv)
 {
-	t_info	data;
+	t_info	*data;
 
 	if (argc < 5 || argc > 6)
 	{
 		printf("Error: Wrong number of arguments\n");
 		exit(1);
 	}
+	
+	data = malloc(sizeof(t_info));
+	if (!data)
+		return (1);
 	if (!is_valid(argc, argv))
 		return (0);
-	init_values(argv, &data);
-	create_thrd(&data);
-	end_thrd(&data);
-	mutex_destroy(&data);
-	free_data(&data);
+	init_values(argv, data);
+	create_thrd(data);
+	end_thrd(data);
+	mutex_destroy(data);
+	free_data(data);
+	free(data);
 	return (0);
 }
