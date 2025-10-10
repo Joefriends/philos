@@ -12,9 +12,15 @@
 
 #include "philo.h"
 
+void	kill_command(t_info *data)
+{
+	pthread_mutex_lock(&data->simulation_lock);
+	data->simulation_end = 1;
+	pthread_mutex_unlock(&data->simulation_lock);
+}
+
 void	*death_checknsleep(t_info *data)
 {
-	
 	if (data->philo_num_eat != -1 && ate_everything(data))
 	{
 		pthread_mutex_lock(&data->simulation_lock);
@@ -39,17 +45,12 @@ void	*death_monitor(void *arg)
 		i = 0;
 		while (i < data->philo_num)
 		{
-			
 			pthread_mutex_lock(&data->philo[i]->meal_lock);
 			if (get_time_in_ms() - data->philo[i]->last_meal >= data->philo_ttd)
 			{
-				
 				print_current_action(data->philo[i], " died");
-				
 				pthread_mutex_unlock(&data->philo[i]->meal_lock);
-				pthread_mutex_lock(&data->simulation_lock);
-				data->simulation_end = 1;
-				pthread_mutex_unlock(&data->simulation_lock);
+				kill_command(data);
 				return (NULL);
 			}
 			pthread_mutex_unlock(&data->philo[i]->meal_lock);

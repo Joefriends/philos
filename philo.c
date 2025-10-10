@@ -6,11 +6,20 @@
 /*   By: jlopes-c <jlopes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 10:34:48 by jlopes-c          #+#    #+#             */
-/*   Updated: 2025/10/10 10:41:29 by jlopes-c         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:08:30 by jlopes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	solo_philo(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->info->forks[0]);
+	print_current_action(philo, " has taken a fork");
+	philo_sleep(philo->info->philo_ttd, philo->info);
+	print_current_action(philo, " died");
+	pthread_mutex_unlock(&philo->info->forks[0]);
+}
 
 void	fork_order(t_philo *data)
 {
@@ -61,11 +70,7 @@ void	*philo_routine(void *data)
 	philo = (t_philo *)data;
 	if (philo->info->philo_num == 1)
 	{
-		pthread_mutex_lock(&philo->info->forks[0]);
-		print_current_action(philo, " has taken a fork");
-		philo_sleep(philo->info->philo_ttd, philo->info);
-		print_current_action(philo, " died");
-		pthread_mutex_unlock(&philo->info->forks[0]);
+		solo_philo(philo);
 		return (NULL);
 	}
 	if (philo->id % 2 == 0)
@@ -74,17 +79,16 @@ void	*philo_routine(void *data)
 	philo->last_meal = get_time_in_ms();
 	pthread_mutex_unlock(&philo->meal_lock);
 	while (philo)
-{
-	pthread_mutex_lock(&philo->info->simulation_lock);
-	if (philo->info->simulation_end == 1)
 	{
+		pthread_mutex_lock(&philo->info->simulation_lock);
+		if (philo->info->simulation_end == 1)
+		{
+			pthread_mutex_unlock(&philo->info->simulation_lock);
+			break ;
+		}
 		pthread_mutex_unlock(&philo->info->simulation_lock);
-		break ;
+		eat_routine(philo);
 	}
-	pthread_mutex_unlock(&philo->info->simulation_lock);
-	eat_routine(philo);
-}
-
 	return (NULL);
 }
 
@@ -97,7 +101,6 @@ int	main(int argc, char **argv)
 		printf("Error: Wrong number of arguments\n");
 		exit(1);
 	}
-	
 	data = malloc(sizeof(t_info));
 	if (!data)
 		return (1);

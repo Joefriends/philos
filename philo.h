@@ -6,7 +6,7 @@
 /*   By: jlopes-c <jlopes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:52 by jlopes-c          #+#    #+#             */
-/*   Updated: 2025/10/10 10:41:34 by jlopes-c         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:08:04 by jlopes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,9 @@ void			init_values(char **argv, t_info *data);
 void			fork_order(t_philo *data);
 void			eat_routine(t_philo *data);
 void			*philo_routine(void *data);
+
+void			kill_command(t_info *data);
+void			init_mutex(t_info *data);
+void			solo_philo(t_philo *philo);
 
 #endif

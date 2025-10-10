@@ -6,7 +6,7 @@
 /*   By: jlopes-c <jlopes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:45 by jlopes-c          #+#    #+#             */
-/*   Updated: 2025/10/09 10:52:22 by jlopes-c         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:04:52 by jlopes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,14 @@ t_philo	**initialize_philosophers(t_info *data)
 	return (philo_assign);
 }
 
+void	init_mutex(t_info *data)
+{
+	if (pthread_mutex_init(&data->print_lock, NULL) != 0)
+		mutex_destroy(data);
+	if (pthread_mutex_init(&data->simulation_lock, NULL) != 0)
+		mutex_destroy(data);
+}
+
 void	init_values(char **argv, t_info *data)
 {
 	data->philo_num = ft_atoi(argv[1]);
@@ -96,8 +104,5 @@ void	init_values(char **argv, t_info *data)
 		mutex_destroy(data);
 		return ;
 	}
-	if (pthread_mutex_init(&data->print_lock, NULL) != 0)
-		mutex_destroy(data);
-	if (pthread_mutex_init(&data->simulation_lock, NULL) != 0)
-		mutex_destroy(data);
+	init_mutex(data);
 }
